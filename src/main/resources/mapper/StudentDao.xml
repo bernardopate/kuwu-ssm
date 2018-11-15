@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kawu.studio.dao.StudentDao">
+    <insert id="insertStu">
+		    insert into student (name, stnum)
+    values (
+    #{name},
+     #{stnum})
+	</insert>
+    <delete id="deleteStu">
+	delete from student
+    where stnum = #{stnum}
+	</delete>
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <select id="queryById" resultType="com.kawu.studio.entity.Student" parameterType="long">
+        <!-- 具体的sql -->
+        SELECT
+        stnum,
+        name,
+        classname
+        FROM
+        student
+        WHERE
+        stnum = #{stnum}
+    </select>
+
+    <select id="queryAll" resultType="com.kawu.studio.entity.Student">
+		SELECT
+			stnum,
+			name,
+			classname
+		FROM
+			student
+		ORDER BY
+			stnum
+		LIMIT #{offset}, #{limit}
+	</select>
+
+    <update id="updateStu">
+        update student
+        <set >
+            <if test="stnum != null" >
+                stnum = #{number},
+            </if>
+            <if test="name != null" >
+                name = #{name},
+            </if>
+        </set>
+        where stnum = #{stnum,jdbcType=BIGINT}
+    </update>
+</mapper>
